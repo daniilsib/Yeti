@@ -7,6 +7,18 @@ class Game:
     def __init__(self, curYeti: yeti.Yeti, curLevel: level.Level):
         self.Yeti = curYeti
         self.Level = curLevel
+        self.teapot = []
+        for i in range (14):
+            for j in range (16):
+                if self.Level.levelMap[i][j] == 't':
+                    self.teapot.append((i, j))
+    def DisplayLevelDetails(self):
+        for (i, j) in self.teapot:
+          x = j * 32
+          y = i * 32
+          self.Level.teapot_rect.x = x
+          self.Level.teapot_rect.y = y
+          self.Level.screen.blit(self.Level.teapot, self.Level.teapot_rect)
     def IsYetiHanging(self) -> bool:
         mapX = round(self.Yeti.x)
         mapY = round(self.Yeti.y)
@@ -88,6 +100,9 @@ class Game:
         self.Yeti.status = yeti.statusClimbDown
         self.Yeti.frames = 0
     def Check(self):
+        for (i, j) in self.teapot:
+            if self.Yeti.x == j and self.Yeti.y == i:
+                self.teapot.remove((i, j))
         if self.Yeti.status != yeti.statusStop:
             return
         if self.IsYetiStanding():

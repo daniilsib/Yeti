@@ -37,10 +37,6 @@ class Level:
           self.stairs_rect.x = x
           self.stairs_rect.y = y
           self.screen.blit(self.stairs, self.stairs_rect)
-        if self.levelMap[i][j] == "t":
-          self.teapot_rect.x = x
-          self.teapot_rect.y = y
-          self.screen.blit(self.teapot, self.teapot_rect)
   def DisplayText(self):
     for i in range (14):
       print(" ")
