@@ -1,12 +1,17 @@
 import pygame
 import yeti
 import level
+import enemy
 import math
 
 class Game:
-    def __init__(self, curYeti: yeti.Yeti, curLevel: level.Level):
+    def __init__(self, curYeti: yeti.Yeti, curLevel: level.Level, curEnemy: enemy.Enemy, curEnemy2: enemy.Enemy):
         self.Yeti = curYeti
         self.Level = curLevel
+        self.Enemy = curEnemy
+        self.Enemy2 = curEnemy2
+        self.Win = False
+        self.Lose = False
         self.teapot = []
         for i in range (14):
             for j in range (16):
@@ -19,15 +24,15 @@ class Game:
           self.Level.teapot_rect.x = x
           self.Level.teapot_rect.y = y
           self.Level.screen.blit(self.Level.teapot, self.Level.teapot_rect)
-    def IsYetiHanging(self) -> bool:
-        mapX = round(self.Yeti.x)
-        mapY = round(self.Yeti.y)
+    def IsHanging(self, Actor) -> bool:
+        mapX = round(Actor.x)
+        mapY = round(Actor.y)
         if self.Level.levelMap[mapY][mapX] == 'h':
             return True
         return False
-    def IsYetiStanding(self) -> bool:
-        mapX = round(self.Yeti.x)
-        mapY = round(self.Yeti.y)
+    def IsStanding(self, Actor) -> bool:
+        mapX = round(Actor.x)
+        mapY = round(Actor.y)
         if mapY == 13:
             return True
         if self.Level.levelMap[mapY + 1][mapX] == 'g' or self.Level.levelMap[mapY + 1][mapX] == 'b' or self.Level.levelMap[mapY + 1][mapX] == 's':
@@ -35,81 +40,166 @@ class Game:
         if self.Level.levelMap[mapY][mapX] == 's':
             return True
         return False
-    def GoRight(self):
-        if self.Yeti.status != yeti.statusStop:
+    def CanGoRight(self, Actor) -> bool:
+        if Actor.status != yeti.statusStop:
+            return False
+        mapX = round(Actor.x)
+        mapY = round(Actor.y)
+        if self.IsStanding(Actor) or self.IsHanging(Actor):
+            if self.Level.levelMap[mapY][mapX + 1] == 'b' or self.Level.levelMap[mapY][mapX + 1] == 'g':
+                return False
+            return True
+    def CanGoLeft(self, Actor) -> bool:
+        if Actor.status != yeti.statusStop:
+            return False
+        mapX = round(Actor.x)
+        mapY = round(Actor.y)
+        if self.IsStanding(Actor) or self.IsHanging(Actor):
+            if self.Level.levelMap[mapY][mapX - 1] == 'b' or self.Level.levelMap[mapY][mapX - 1] == 'g':
+                return False
+            return True
+    def GoRight(self, Actor):
+        if Actor.status != yeti.statusStop:
             return
-        mapX = round(self.Yeti.x)
-        mapY = round(self.Yeti.y)
-        if self.IsYetiStanding():
+        mapX = round(Actor.x)
+        mapY = round(Actor.y)
+        if self.IsStanding(Actor):
             if self.Level.levelMap[mapY][mapX + 1] == 'b' or self.Level.levelMap[mapY][mapX + 1] == 'g':
                 return
-            self.Yeti.status = yeti.statusRunRight
-            self.Yeti.frames = 0
+            Actor.status = yeti.statusRunRight
+            Actor.frames = 0
             return
-        if self.IsYetiHanging():
+        if self.IsHanging(Actor):
             if self.Level.levelMap[mapY][mapX + 1] == 'b' or self.Level.levelMap[mapY][mapX + 1] == 'g':
                 return
-            self.Yeti.status = yeti.statusHangingRight
-            self.Yeti.frames = 0
+            Actor.status = yeti.statusHangingRight
+            Actor.frames = 0
             return
-    def GoLeft(self):
+    def GoLeft(self, Actor):
         if self.Yeti.status != yeti.statusStop:
             return
-        mapX = round(self.Yeti.x)
-        mapY = round(self.Yeti.y)
-        if self.IsYetiStanding():
+        mapX = round(Actor.x)
+        mapY = round(Actor.y)
+        if self.IsStanding(Actor):
             if self.Level.levelMap[mapY][mapX - 1] == 'b' or self.Level.levelMap[mapY][mapX - 1] == 'g':
                 return
-            self.Yeti.status = yeti.statusRunLeft
-            self.Yeti.frames = 0
+            Actor.status = yeti.statusRunLeft
+            Actor.frames = 0
             return
-        if self.IsYetiHanging():
+        if self.IsHanging(Actor):
             if self.Level.levelMap[mapY][mapX - 1] == 'b' or self.Level.levelMap[mapY][mapX - 1] == 'g':
                 return
-            self.Yeti.status = yeti.statusHangingLeft
-            self.Yeti.frames = 0
+            Actor.status = yeti.statusHangingLeft
+            Actor.frames = 0
             return
-    def GoUp(self):
+    def CanGoUp(self, Actor) -> bool:
+        if self.Yeti.status != yeti.statusStop:
+            return False
+        mapX = round(Actor.x)
+        mapY = round(Actor.y)
+        if mapY == 0:
+            return False
+        if self.Level.levelMap[mapY - 1][mapX] == 'b' or self.Level.levelMap[mapY - 1][mapX] == 'g':
+            return False
+        if self.Level.levelMap[mapY][mapX] != 's':
+            return False
+        return True
+    def CanGoDown(self, Actor) -> bool:
+        if self.Yeti.status != yeti.statusStop:
+            return False
+        mapX = round(Actor.x)
+        mapY = round(Actor.y)
+        if mapY == 13:
+            return False
+        if self.Level.levelMap[mapY + 1][mapX] == 'b' or self.Level.levelMap[mapY + 1][mapX] == 'g':
+            return False
+        if self.Level.levelMap[mapY][mapX] == 'h' and self.Level.levelMap[mapY + 1][mapX] != 's':
+            return True
+        if self.Level.levelMap[mapY][mapX] != 's' and self.Level.levelMap[mapY + 1][mapX] != 's':
+            return False
+        return True
+    def GoUp(self, Actor):
         if self.Yeti.status != yeti.statusStop:
             return
-        mapX = round(self.Yeti.x)
-        mapY = round(self.Yeti.y)
+        mapX = round(Actor.x)
+        mapY = round(Actor.y)
         if mapY == 0:
             return
         if self.Level.levelMap[mapY - 1][mapX] == 'b' or self.Level.levelMap[mapY - 1][mapX] == 'g':
             return
         if self.Level.levelMap[mapY][mapX] != 's':
             return
-        self.Yeti.status = yeti.statusClimbUp
-        self.Yeti.frames = 0
-    def GoDown(self):
+        Actor.status = yeti.statusClimbUp
+        Actor.frames = 0
+    def GoDown(self, Actor):
         if self.Yeti.status != yeti.statusStop:
             return
-        mapX = round(self.Yeti.x)
-        mapY = round(self.Yeti.y)
+        mapX = round(Actor.x)
+        mapY = round(Actor.y)
         if mapY == 13:
             return
         if self.Level.levelMap[mapY + 1][mapX] == 'b' or self.Level.levelMap[mapY + 1][mapX] == 'g':
             return
         if self.Level.levelMap[mapY][mapX] == 'h' and self.Level.levelMap[mapY + 1][mapX] != 's':
-            self.Yeti.status = yeti.statusFall
-            self.Yeti.frames = 0
+            Actor.status = yeti.statusFall
+            Actor.frames = 0
             return
         if self.Level.levelMap[mapY][mapX] != 's' and self.Level.levelMap[mapY + 1][mapX] != 's':
             return
-        self.Yeti.status = yeti.statusClimbDown
-        self.Yeti.frames = 0
-    def Check(self):
+        Actor.status = yeti.statusClimbDown
+        Actor.frames = 0
+    def Check(self, Actor):
+        if Actor.status != yeti.statusStop:
+            return
+        if self.IsStanding(Actor):
+            Actor.hanging = False
+            return
+        if self.IsHanging(Actor):
+            Actor.hanging = True
+            return
+        Actor.status = yeti.statusFall
+        Actor.frames = 0
+    def TeaCheck(self):
         for (i, j) in self.teapot:
             if self.Yeti.x == j and self.Yeti.y == i:
                 self.teapot.remove((i, j))
-        if self.Yeti.status != yeti.statusStop:
+                if len(self.teapot) == 0:
+                    self.Win = True
+    def CatchCheck(self):
+        if self.Yeti.x == self.Enemy.x and self.Yeti.y == self.Enemy.y:
+            self.Lose = True
+        if self.Yeti.x == self.Enemy2.x and self.Yeti.y == self.Enemy2.y:
+            self.Lose = True
+    def CheckEnemy(self, Actor):
+        if Actor.status != yeti.statusStop:
             return
-        if self.IsYetiStanding():
-            self.Yeti.hanging = False
+        if self.Yeti.x > Actor.x and self.CanGoRight(Actor):
+            self.GoRight(Actor)
             return
-        if self.IsYetiHanging():
-            self.Yeti.hanging = True
+        if self.Yeti.x < Actor.x and self.CanGoLeft(Actor):
+            self.GoLeft(Actor)
             return
-        self.Yeti.status = yeti.statusFall
-        self.Yeti.frames = 0
+        if self.Yeti.y < Actor.y and self.CanGoUp(Actor):
+            self.GoUp(Actor)
+            return
+        if self.Yeti.y > Actor.y and self.CanGoDown(Actor):
+            self.GoDown(Actor)
+            return
+    def CheckEnemy2(self, Actor):
+        if Actor.status != yeti.statusStop:
+            return
+        if self.Yeti.y < Actor.y and self.CanGoUp(Actor):
+            self.GoUp(Actor)
+            return
+        if self.Yeti.y > Actor.y and self.CanGoDown(Actor):
+            self.GoDown(Actor)
+            return
+        if self.Yeti.x > Actor.x and self.CanGoRight(Actor):
+            self.GoRight(Actor)
+            return
+        if self.Yeti.x < Actor.x and self.CanGoLeft(Actor):
+            self.GoLeft(Actor)
+            return
+        
+        
+    
