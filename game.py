@@ -76,7 +76,7 @@ class Game:
             Actor.frames = 0
             return
     def GoLeft(self, Actor):
-        if self.Yeti.status != yeti.statusStop:
+        if Actor.status != yeti.statusStop:
             return
         mapX = round(Actor.x)
         mapY = round(Actor.y)
@@ -93,7 +93,7 @@ class Game:
             Actor.frames = 0
             return
     def CanGoUp(self, Actor) -> bool:
-        if self.Yeti.status != yeti.statusStop:
+        if Actor.status != yeti.statusStop:
             return False
         mapX = round(Actor.x)
         mapY = round(Actor.y)
@@ -105,7 +105,7 @@ class Game:
             return False
         return True
     def CanGoDown(self, Actor) -> bool:
-        if self.Yeti.status != yeti.statusStop:
+        if Actor.status != yeti.statusStop:
             return False
         mapX = round(Actor.x)
         mapY = round(Actor.y)
@@ -119,7 +119,7 @@ class Game:
             return False
         return True
     def GoUp(self, Actor):
-        if self.Yeti.status != yeti.statusStop:
+        if Actor.status != yeti.statusStop:
             return
         mapX = round(Actor.x)
         mapY = round(Actor.y)
@@ -132,7 +132,7 @@ class Game:
         Actor.status = yeti.statusClimbUp
         Actor.frames = 0
     def GoDown(self, Actor):
-        if self.Yeti.status != yeti.statusStop:
+        if Actor.status != yeti.statusStop:
             return
         mapX = round(Actor.x)
         mapY = round(Actor.y)
