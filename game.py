@@ -200,6 +200,20 @@ class Game:
         if self.Yeti.x < Actor.x and self.CanGoLeft(Actor):
             self.GoLeft(Actor)
             return
-        
-        
-    
+    def RestartGame(self):
+        self.Yeti.x = 1
+        self.Yeti.y = 13
+        self.Enemy.x = 1
+        self.Enemy.y = 0
+        self.Enemy2.x = 1
+        self.Enemy2.y = 0
+        self.Lose = 0
+        self.Win = 0
+        self.Yeti.status = yeti.statusStop
+        self.Enemy.status = enemy.statusStop
+        self.Enemy2.status = enemy.statusStop
+        self.teapot = []
+        for i in range (14):
+            for j in range (16):
+                if self.Level.levelMap[i][j] == 't':
+                    self.teapot.append((i, j))

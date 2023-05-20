@@ -9,6 +9,14 @@ import enemy
 
 pygame.init()
 
+modeMainMenu = 1
+modeGame = 2
+modeShowAutors = 3
+modeWin = 4
+modeLost = 5
+
+curMode = modeMainMenu
+
 white = (255, 255, 255)
 black = (0, 0, 0)
 
@@ -32,8 +40,29 @@ while running:
     if event.type == pygame.QUIT:
       running = False
   keys = pygame.key.get_pressed()
-  
-  if not curGame.Win and not curGame.Lose:
+  if curMode == modeWin:
+    if keys[pygame.K_SPACE]:
+      curMode = modeMainMenu
+      curGame.RestartGame()
+    curFinish.DisplayWin()
+  if curMode == modeLost:
+    if keys[pygame.K_SPACE]:
+      curMode = modeMainMenu
+      curGame.RestartGame()
+    curFinish.DisplayLose()
+  if curMode == modeShowAutors:
+    curFinish.DisplayShowAutors()
+    if keys[pygame.K_SPACE]:
+      curMode = modeMainMenu
+  if curMode == modeMainMenu:
+    curFinish.DisplayMainMenu()
+    if keys[pygame.K_1]:
+      curMode = modeGame
+    if keys[pygame.K_2]:
+      curMode = modeShowAutors
+    if keys[pygame.K_3]:
+      exit(1)
+  if curMode == modeGame:
     curGame.TeaCheck()
     curGame.Check(curYeti)
     curGame.CheckEnemy(curEnemy)
@@ -49,16 +78,16 @@ while running:
       curGame.GoDown(curYeti)
     if keys[pygame.K_UP]:
       curGame.GoUp(curYeti)
+    screen.fill(black)
+    curLevel.Display()
+    curGame.DisplayLevelDetails()
+    curYeti.Display()
+    curEnemy.Display()
+    curEnemy2.Display()
+    if curGame.Win:
+      curMode = modeWin
+    if curGame.Lose:
+      curMode = modeLost
 
-  screen.fill(black)
-  curLevel.Display()
-  curGame.DisplayLevelDetails()
-  curYeti.Display()
-  curEnemy.Display()
-  curEnemy2.Display()
-  if curGame.Win:
-    curFinish.DisplayWin()
-  if curGame.Lose:
-    curFinish.DisplayLose()
   pygame.display.flip()
   clock.tick(60)
