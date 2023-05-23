@@ -234,7 +234,7 @@ class Game:
                         self.Win = True
                     else:
                         self.levelNum += 1
-                        self.RestartLevel(self.levelNum)
+                        self.RestartForLevelTwo(self.levelNum)
     def CatchCheck(self):
         if self.Yeti.x == self.Enemy.x and self.Yeti.y == self.Enemy.y:
             if self.lives <= 0:
@@ -282,6 +282,26 @@ class Game:
         self.RestartLevel(0)
         self.lives = 3
         self.levelNum = 0
+        self.teapot = []
+        for i in range (14):
+            for j in range (16):
+                if self.Level.levelMap[i][j] == 't':
+                    self.teapot.append((i, j))
+    def RestartForLevelTwo(self, levelNum):
+        self.Yeti.x = 1
+        self.Yeti.y = 14
+        self.Enemy.x = 1
+        self.Enemy.y = 0
+        self.Enemy2.x = 1
+        self.Enemy2.y = 0
+        self.Lose = 0
+        self.Win = 0
+        self.levelNum = levelNum
+        self.Yeti.status = yeti.statusStop
+        self.Enemy.status = enemy.statusStop
+        self.Enemy2.status = enemy.statusStop
+        self.burnedBlocks = []
+        self.Level.LoadMap(self.levelNum)
         self.teapot = []
         for i in range (14):
             for j in range (16):
