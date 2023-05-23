@@ -4,18 +4,18 @@ class Level:
   def __init__(self, screen):
     self.screen = screen
     self.locationString = ""
-    rows = 14
+    rows = 15
     cols = 16
 
     self.levelMap = [['s']*cols for i in range(rows)]
 
     self.LoadString()
-    self.LoadMap()
+    self.LoadMap(0)
     self.levelMap[2][2] = 'D'
     self.LoadBlocks()
     self.DisplayText()
   def Display(self):
-    for i in range (14):
+    for i in range (15):
       #print(" ")
       for j in range (16):
         x = j * 32
@@ -38,13 +38,16 @@ class Level:
           self.stairs_rect.y = y
           self.screen.blit(self.stairs, self.stairs_rect)
   def DisplayText(self):
-    for i in range (14):
+    for i in range (15):
       print(" ")
       for j in range (16):
         print(self.levelMap[i][j], end="")
-  def LoadMap(self):
-      lines = self.locationString.splitlines()
-      for i in range (14):
+  def LoadMap(self, levelNum):
+      if levelNum == 0:
+        lines = self.locationString0.splitlines()
+      if levelNum == 1:
+        lines = self.locationString1.splitlines()
+      for i in range (15):
         for j in range (16):
           k=lines[i][j]
           self.levelMap[i][j] = k
@@ -66,10 +69,11 @@ class Level:
     self.teapot = pygame.transform.scale(self.teapot, (32, 32))
     self.teapot_rect = self.teapot.get_rect()
   def LoadString(self):
-    self.locationString = """bs  hhhhhhhhhhsb
+    self.locationString0 = """bs  hhhhhhhhhhsb
 bs t          sb
 bs gh  t sggggsb
 bs     ggs     b
+bs       s     b
 bs   t   sht   b
 bshhhs   s gggsb
 b    s   s    sb
@@ -80,4 +84,19 @@ bs    s  s  s  b
 bs    shhs  s  b
 bs    s  b  s  b
 bs t  s  bt s  b"""
+    self.locationString1 = """bshhhhhhhhhhshhb
+bs          s  b
+bs t  t  t  s tb
+bs          s  b
+bs          s  b
+bs shhs  shhshhb
+bs s  s  s  s  b
+bs s  ssss  s  b
+bsgsgggssgggsggb
+b  s   ss   s  b
+b  s   ss   s  b
+b  s   ss   s  b
+bhhshhhsshhhshhb
+b  s t ss t s  b
+b  s   ss   s  b"""
     

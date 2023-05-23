@@ -9,13 +9,15 @@ statusHangingRight = 5
 statusHangingStop = 6
 statusClimbDown = 7
 statusClimbUp = 8
+statusFireRight = 9
+statusFireLeft = 10
 
 class Yeti:
     def __init__(self, screen):
         self.hanging = False
         self.screen = screen
         self.x = 1
-        self.y = 13
+        self.y = 14
         self.status = statusStop
         self.frames = 0
         self.LoadYeti()
@@ -68,6 +70,30 @@ class Yeti:
         self.yeti_fall2 = pygame.image.load('pics/yeti_fall2.png')
         self.yeti_fall2 = pygame.transform.scale(self.yeti_fall2, (32, 32))
         self.yeti_fall2_rect = self.yeti_fall2.get_rect()
+        self.yeti_firel = pygame.image.load('pics/yeti_firel.png')
+        self.yeti_firel = pygame.transform.scale(self.yeti_firel, (32, 32))
+        self.yeti_firel_rect = self.yeti_firel.get_rect()
+        self.yeti_firel2 = pygame.image.load('pics/yeti_firel2.png')
+        self.yeti_firel2 = pygame.transform.scale(self.yeti_firel2, (32, 32))
+        self.yeti_firel2_rect = self.yeti_firel2.get_rect()
+        self.yeti_firer = pygame.image.load('pics/yeti_firer.png')
+        self.yeti_firer = pygame.transform.scale(self.yeti_firer, (32, 32))
+        self.yeti_firer_rect = self.yeti_firer.get_rect()
+        self.yeti_firer2 = pygame.image.load('pics/yeti_firer2.png')
+        self.yeti_firer2 = pygame.transform.scale(self.yeti_firer2, (32, 32))
+        self.yeti_firer2_rect = self.yeti_firer2.get_rect()
+        self.broken_grass = pygame.image.load('pics/broken_grass.png')
+        self.broken_grass = pygame.transform.scale(self.broken_grass, (32, 32))
+        self.broken_grass_rect = self.broken_grass.get_rect()
+        self.broken_grassr = pygame.image.load('pics/broken_grassr.png')
+        self.broken_grassr = pygame.transform.scale(self.broken_grassr, (32, 32))
+        self.broken_grassr_rect = self.broken_grassr.get_rect()
+        self.broken_grass2 = pygame.image.load('pics/broken_grass2.png')
+        self.broken_grass2 = pygame.transform.scale(self.broken_grass2, (32, 32))
+        self.broken_grass2_rect = self.broken_grass2.get_rect()
+        self.broken_grass3 = pygame.image.load('pics/broken_grass3.png')
+        self.broken_grass3 = pygame.transform.scale(self.broken_grass3, (32, 32))
+        self.broken_grass3_rect = self.broken_grass3.get_rect()
 
     def Display(self):
         self.frames += 1
@@ -92,6 +118,10 @@ class Yeti:
             self.DisplayHangingRight()
         if self.status == statusHangingStop:
             self.DisplayHangingStop()
+        if self.status == statusFireRight:
+            self.DisplayFireRight()
+        if self.status == statusFireLeft:
+            self.DisplayFireLeft()
     def DisplayStop(self):
         x = self.x * 32
         y = self.y * 32
@@ -217,3 +247,60 @@ class Yeti:
             self.screen.blit(self.yeti_hanging_stop2, self.yeti_hanging_stop2_rect)
         if self.frames >= 30:
             self.frames = 0
+    def DisplayFireRight(self):
+        x = self.x * 32
+        y = self.y * 32
+
+        if self.frames < 15:
+            self.yeti_firer_rect.x = x
+            self.yeti_firer_rect.y = y
+            x32 = self.yeti_firer_rect.x + 32
+            y32 = self.yeti_firer_rect.y + 32
+            self.broken_grass_rect.x = x32
+            self.broken_grass_rect.y = y32
+            self.broken_grass2_rect.x = x32
+            self.broken_grass2_rect.y = y
+            self.screen.blit(self.broken_grass, self.broken_grass_rect)
+            self.screen.blit(self.broken_grass2, self.broken_grass2_rect)
+            self.screen.blit(self.yeti_firer, self.yeti_firer_rect)
+        else:
+            x32 = self.yeti_firer2_rect.x + 32
+            y32 = self.yeti_firer2_rect.y + 32
+            self.broken_grass3_rect.x = x32
+            self.broken_grass3_rect.y = y32
+            self.yeti_firel2_rect.x = x
+            self.yeti_firel2_rect.y = y
+            self.screen.blit(self.broken_grass3, self.broken_grass3_rect)
+            self.yeti_firer2_rect.x = x
+            self.yeti_firer2_rect.y = y
+            self.screen.blit(self.yeti_firer2, self.yeti_firer2_rect)
+        if self.frames >= 30:
+            self.frames = 0
+            self.status = statusStop
+    def DisplayFireLeft(self):
+        x = self.x * 32
+        y = self.y * 32
+        if self.frames < 15:
+            self.yeti_firel_rect.x = x
+            self.yeti_firel_rect.y = y
+            self.screen.blit(self.yeti_firel, self.yeti_firel_rect)
+            x32 = self.yeti_firel_rect.x - 32
+            y32 = self.yeti_firel_rect.y + 32
+            self.broken_grassr_rect.x = x32
+            self.broken_grassr_rect.y = y32
+            self.broken_grass2_rect.x = x32
+            self.broken_grass2_rect.y = y
+            self.screen.blit(self.broken_grassr, self.broken_grassr_rect)
+            self.screen.blit(self.broken_grass2, self.broken_grass2_rect)
+        else:
+            x32 = self.yeti_firel2_rect.x - 32
+            y32 = self.yeti_firel2_rect.y + 32
+            self.broken_grass3_rect.x = x32
+            self.broken_grass3_rect.y = y32
+            self.yeti_firel2_rect.x = x
+            self.yeti_firel2_rect.y = y
+            self.screen.blit(self.broken_grass3, self.broken_grass3_rect)
+            self.screen.blit(self.yeti_firel2, self.yeti_firel2_rect)
+        if self.frames >= 30:
+            self.frames = 0
+            self.status = statusStop

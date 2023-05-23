@@ -9,6 +9,9 @@ statusHangingRight = 5
 statusHangingStop = 6
 statusClimbDown = 7
 statusClimbUp = 8
+statusFireRight = 9
+statusFireLeft = 10
+
 
 class Enemy:
     def __init__(self, screen):

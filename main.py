@@ -20,7 +20,7 @@ curMode = modeMainMenu
 white = (255, 255, 255)
 black = (0, 0, 0)
 
-screen = pygame.display.set_mode((512,448))
+screen = pygame.display.set_mode((512,480))
 curLevel = level.Level(screen)
 curYeti = yeti.Yeti(screen)
 curEnemy = enemy.Enemy(screen)
@@ -78,6 +78,10 @@ while running:
       curGame.GoDown(curYeti)
     if keys[pygame.K_UP]:
       curGame.GoUp(curYeti)
+    if keys[pygame.K_w]:
+      curGame.FireRight(curYeti)
+    if keys[pygame.K_q]:
+      curGame.FireLeft(curYeti)
     screen.fill(black)
     curLevel.Display()
     curGame.DisplayLevelDetails()
