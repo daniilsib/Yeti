@@ -13,9 +13,9 @@ class Game:
         self.Win = False
         self.Lose = False
         self.levelNum = 0
-        self.lives = 3
+        self.lives = 100
         self.teapot = []
-        for i in range (14):
+        for i in range (15):
             for j in range (16):
                 if self.Level.levelMap[i][j] == 't':
                     self.teapot.append((i, j))
@@ -229,12 +229,14 @@ class Game:
         for (i, j) in self.teapot:
             if self.Yeti.x == j and self.Yeti.y == i:
                 self.teapot.remove((i, j))
-                if len(self.teapot) == 0:
-                    if self.levelNum == 1:
-                        self.Win = True
-                    else:
-                        self.levelNum += 1
-                        self.RestartForLevelTwo(self.levelNum)
+            if len(self.teapot) == 0:
+                if self.levelNum == 2:
+                    self.Win = True
+                    print('you won')
+                    return
+                self.levelNum += 1
+                self.RestartForLevelTwo(self.levelNum)
+
     def CatchCheck(self):
         if self.Yeti.x == self.Enemy.x and self.Yeti.y == self.Enemy.y:
             if self.lives <= 0:
@@ -281,9 +283,11 @@ class Game:
     def RestartGame(self):
         self.RestartLevel(0)
         self.lives = 3
+        self.Lose = False
+        self.Win = False
         self.levelNum = 0
         self.teapot = []
-        for i in range (14):
+        for i in range (15):
             for j in range (16):
                 if self.Level.levelMap[i][j] == 't':
                     self.teapot.append((i, j))
@@ -294,8 +298,6 @@ class Game:
         self.Enemy.y = 0
         self.Enemy2.x = 1
         self.Enemy2.y = 0
-        self.Lose = 0
-        self.Win = 0
         self.levelNum = levelNum
         self.Yeti.status = yeti.statusStop
         self.Enemy.status = enemy.statusStop
@@ -303,7 +305,7 @@ class Game:
         self.burnedBlocks = []
         self.Level.LoadMap(self.levelNum)
         self.teapot = []
-        for i in range (14):
+        for i in range (15):
             for j in range (16):
                 if self.Level.levelMap[i][j] == 't':
                     self.teapot.append((i, j))
@@ -314,8 +316,6 @@ class Game:
         self.Enemy.y = 0
         self.Enemy2.x = 1
         self.Enemy2.y = 0
-        self.Lose = 0
-        self.Win = 0
         self.levelNum = levelNum
         self.Yeti.status = yeti.statusStop
         self.Enemy.status = enemy.statusStop

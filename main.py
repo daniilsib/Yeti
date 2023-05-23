@@ -70,6 +70,10 @@ while running:
     curGame.CheckEnemy2(curEnemy2)
     curGame.Check(curEnemy2)
     curGame.CatchCheck()
+    if keys[pygame.K_w]:
+      curGame.FireRight(curYeti)
+    if keys[pygame.K_q]:
+      curGame.FireLeft(curYeti)
     if keys[pygame.K_LEFT]:
       curGame.GoLeft(curYeti)
     if keys[pygame.K_RIGHT]:
@@ -78,10 +82,7 @@ while running:
       curGame.GoDown(curYeti)
     if keys[pygame.K_UP]:
       curGame.GoUp(curYeti)
-    if keys[pygame.K_w]:
-      curGame.FireRight(curYeti)
-    if keys[pygame.K_q]:
-      curGame.FireLeft(curYeti)
+
     screen.fill(black)
     curLevel.Display()
     curGame.DisplayLevelDetails()
