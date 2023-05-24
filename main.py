@@ -14,10 +14,10 @@ modeGame = 2
 modeShowAutors = 3
 modeWin = 4
 modeLost = 5
-
+myFont = pygame.font.SysFont("impact", 21)
 curMode = modeMainMenu
 
-white = (255, 255, 255)
+WHITE = (255, 255, 255)
 black = (0, 0, 0)
 
 screen = pygame.display.set_mode((512,480))
@@ -27,6 +27,9 @@ curEnemy = enemy.Enemy(screen)
 curEnemy2 = enemy.Enemy(screen)
 curGame = game.Game(curYeti, curLevel, curEnemy, curEnemy2)
 curFinish = finish_screen.FinishScreen(screen)
+circle = pygame.image.load('pics/circle.png')
+circle = pygame.transform.scale(circle, (32, 32))
+circle_rect = circle.get_rect()
 
 pygame.display.set_caption('YetiRM')
 
@@ -40,6 +43,7 @@ while running:
     if event.type == pygame.QUIT:
       running = False
   keys = pygame.key.get_pressed()
+  text = myFont.render(str(curGame.lives), True, (255, 255, 255))
   if curMode == modeWin:
     if keys[pygame.K_SPACE]:
       curMode = modeMainMenu
@@ -93,6 +97,8 @@ while running:
       curMode = modeWin
     if curGame.Lose:
       curMode = modeLost
+    screen.blit(circle, circle_rect)
+    screen.blit(text, (5, 0))
 
   pygame.display.flip()
   clock.tick(60)

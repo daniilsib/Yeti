@@ -13,7 +13,7 @@ class Game:
         self.Win = False
         self.Lose = False
         self.levelNum = 0
-        self.lives = 100
+        self.lives = 20
         self.teapot = []
         for i in range (15):
             for j in range (16):
@@ -230,7 +230,7 @@ class Game:
             if self.Yeti.x == j and self.Yeti.y == i:
                 self.teapot.remove((i, j))
             if len(self.teapot) == 0:
-                if self.levelNum == 2:
+                if self.levelNum == 4:
                     self.Win = True
                     print('you won')
                     return
@@ -282,7 +282,7 @@ class Game:
             return
     def RestartGame(self):
         self.RestartLevel(0)
-        self.lives = 3
+        self.lives = 20
         self.Lose = False
         self.Win = False
         self.levelNum = 0
