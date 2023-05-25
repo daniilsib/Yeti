@@ -232,11 +232,14 @@ class Game:
                     self.Win = True
                     print('you won')
                     return
+                self.lives += 1
                 self.levelNum += 1
                 self.RestartForLevelTwo(self.levelNum)
 
     def CatchCheck(self):
-        if self.Yeti.x == self.Enemy.x and self.Yeti.y == self.Enemy.y:
+        mapX = round(self.Yeti.x)
+        mapY = round(self.Yeti.y)
+        if self.Yeti.x == self.Enemy.x and self.Yeti.y == self.Enemy.y or self.Level.levelMap[mapY][mapX] == 'g':
             if self.lives <= 0:
                 self.Lose = True
             else:
@@ -251,6 +254,11 @@ class Game:
     def CheckEnemy(self, Actor):
         if Actor.status != yeti.statusStop:
             return
+        mapX = round(Actor.x)
+        mapY = round(Actor.y)
+        if self.Level.levelMap[mapY][mapX] == 'g':
+            self.Enemy.x = 1
+            self.Enemy.y = 0
         if self.Yeti.x > Actor.x and self.CanGoRight(Actor):
             self.GoRight(Actor)
             return
@@ -264,6 +272,11 @@ class Game:
             self.GoDown(Actor)
             return
     def CheckEnemy2(self, Actor):
+        mapX = round(Actor.x)
+        mapY = round(Actor.y)
+        if self.Level.levelMap[mapY][mapX] == 'g':
+            self.Enemy.x = 1
+            self.Enemy.y = 0
         if Actor.status != yeti.statusStop:
             return
         if self.Yeti.y < Actor.y and self.CanGoUp(Actor):
