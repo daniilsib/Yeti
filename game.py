@@ -135,11 +135,13 @@ class Game:
             return False
         if self.Level.levelMap[mapY][mapX] == 'h' and self.Level.levelMap[mapY + 1][mapX] != 's':
             return True
+        if self.Level.levelMap[mapY + 1][mapX - 1] == 'g' and self.Level.levelMap[mapY][mapX] == ' ':
+            return True
         if self.Level.levelMap[mapY][mapX] != 's' and self.Level.levelMap[mapY + 1][mapX] != 's':
             return False
         return True
     def CanFireRight(self, Actor) -> bool:
-        if Actor.status != yeti.statusStop:
+        if Actor.status != yeti.statusStop and Actor.frames > 2:
             return False
         mapX = round(Actor.x)
         mapY = round(Actor.y)
@@ -151,7 +153,7 @@ class Game:
             return True
         return False
     def CanFireLeft(self, Actor) -> bool:
-        if Actor.status != yeti.statusStop:
+        if Actor.status != yeti.statusStop and Actor.frames > 2:
             return False
         mapX = round(Actor.x)
         mapY = round(Actor.y)
@@ -163,8 +165,6 @@ class Game:
             return True
         return False
     def FireRight(self, Actor):
-        if Actor.status != yeti.statusStop:
-            return
         if not self.CanFireRight(Actor):
             return
         Actor.status = yeti.statusFireRight
@@ -174,8 +174,6 @@ class Game:
         self.Level.levelMap[mapY+1][mapX+1] = ' '
         self.burnedBlocks.append((mapY+1, mapX+1, 30 * 18))
     def FireLeft(self, Actor):
-        if Actor.status != yeti.statusStop:
-            return
         if not self.CanFireLeft(Actor):
             return
         Actor.status = yeti.statusFireLeft
