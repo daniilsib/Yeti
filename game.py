@@ -232,7 +232,7 @@ class Game:
                     self.Win = True
                     print('you won')
                     return
-                self.lives += 1
+                self.lives += 5
                 self.levelNum += 1
                 self.RestartForLevelTwo(self.levelNum)
 
