@@ -98,7 +98,7 @@ while running:
     if curGame.Lose:
       curMode = modeLost
     screen.blit(circle, circle_rect)
-    screen.blit(text, (5, 0))
+    screen.blit(text, (5, 2))
 
   pygame.display.flip()
   clock.tick(60)

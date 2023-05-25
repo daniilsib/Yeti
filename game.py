@@ -275,8 +275,8 @@ class Game:
         mapX = round(Actor.x)
         mapY = round(Actor.y)
         if self.Level.levelMap[mapY][mapX] == 'g':
-            self.Enemy.x = 1
-            self.Enemy.y = 0
+            self.Enemy2.x = 1
+            self.Enemy2.y = 0
         if Actor.status != yeti.statusStop:
             return
         if self.Yeti.y < Actor.y and self.CanGoUp(Actor):
