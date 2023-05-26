@@ -172,7 +172,7 @@ class Game:
         mapX = round(Actor.x)
         mapY = round(Actor.y)
         self.Level.levelMap[mapY+1][mapX+1] = ' '
-        self.burnedBlocks.append((mapY+1, mapX+1, 30 * 20))
+        self.burnedBlocks.append((mapY+1, mapX+1, 30 * 25))
     def FireLeft(self, Actor):
         if not self.CanFireLeft(Actor):
             return
@@ -181,7 +181,7 @@ class Game:
         mapX = round(Actor.x)
         mapY = round(Actor.y)
         self.Level.levelMap[mapY+1][mapX-1] = ' '
-        self.burnedBlocks.append((mapY+1, mapX-1, 30 * 20))
+        self.burnedBlocks.append((mapY+1, mapX-1, 30 * 25))
     def GoUp(self, Actor):
         if Actor.status != yeti.statusStop:
             return
