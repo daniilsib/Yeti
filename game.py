@@ -13,7 +13,7 @@ class Game:
         self.Win = False
         self.Lose = False
         self.levelNum = 0
-        self.lives = 20
+        self.lives = 25
         self.teapot = []
         for i in range (15):
             for j in range (16):
@@ -172,7 +172,7 @@ class Game:
         mapX = round(Actor.x)
         mapY = round(Actor.y)
         self.Level.levelMap[mapY+1][mapX+1] = ' '
-        self.burnedBlocks.append((mapY+1, mapX+1, 30 * 18))
+        self.burnedBlocks.append((mapY+1, mapX+1, 30 * 20))
     def FireLeft(self, Actor):
         if not self.CanFireLeft(Actor):
             return
@@ -181,7 +181,7 @@ class Game:
         mapX = round(Actor.x)
         mapY = round(Actor.y)
         self.Level.levelMap[mapY+1][mapX-1] = ' '
-        self.burnedBlocks.append((mapY+1, mapX-1, 30 * 18))
+        self.burnedBlocks.append((mapY+1, mapX-1, 30 * 20))
     def GoUp(self, Actor):
         if Actor.status != yeti.statusStop:
             return
@@ -228,7 +228,7 @@ class Game:
             if self.Yeti.x == j and self.Yeti.y == i:
                 self.teapot.remove((i, j))
             if len(self.teapot) == 0:
-                if self.levelNum == 8:
+                if self.levelNum == 10:
                     self.Win = True
                     print('you won')
                     return
