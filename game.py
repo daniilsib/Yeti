@@ -228,7 +228,7 @@ class Game:
             if self.Yeti.x == j and self.Yeti.y == i:
                 self.teapot.remove((i, j))
             if len(self.teapot) == 0:
-                if self.levelNum == 7:
+                if self.levelNum == 8:
                     self.Win = True
                     print('you won')
                     return

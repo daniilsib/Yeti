@@ -59,6 +59,8 @@ class Level:
         lines = self.locationString6.splitlines()
       if levelNum == 7:
         lines = self.locationString7.splitlines()
+      if levelNum == 8:
+        lines = self.locationString8.splitlines()
       for i in range (15):
         for j in range (16):
           k=lines[i][j]
@@ -201,4 +203,20 @@ bs ssgggs     sb
 bshssgtgsbs   sb
 b  ssgsgsbs   sb
 b  s    sbs   sb
+"""
+    self.locationString8 = """bs   hhhhhhhshhb
+bs          s  b
+bs  t       s  b
+ba       gggs  b
+bsggbbbs bg s tb
+b t    s st s gb
+b g    s bb s  b
+b s    s    s  b
+b gsbbbb    s  b
+b  s     sbbb  b
+b  s   t s  hhsb
+b  sgggs s    sb
+b  s t s s  t sb
+b  sgggs shhh sb
+b      t s    sb
 """
