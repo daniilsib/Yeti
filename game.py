@@ -2,14 +2,16 @@ import pygame
 import yeti
 import level
 import enemy
+import sounds
 import math
 
 class Game:
-    def __init__(self, curYeti: yeti.Yeti, curLevel: level.Level, curEnemy: enemy.Enemy, curEnemy2: enemy.Enemy):
+    def __init__(self, curYeti: yeti.Yeti, curLevel: level.Level, curEnemy: enemy.Enemy, curEnemy2: enemy.Enemy, curSounds: sounds.GameSound):
         self.Yeti = curYeti
         self.Level = curLevel
         self.Enemy = curEnemy
         self.Enemy2 = curEnemy2
+        self.Sound = curSounds
         self.Win = False
         self.Lose = False
         self.levelNum = 0
@@ -167,6 +169,7 @@ class Game:
     def FireRight(self, Actor):
         if not self.CanFireRight(Actor):
             return
+        self.Sound.PlayBrokeGrass()
         Actor.status = yeti.statusFireRight
         Actor.frames = 0
         mapX = round(Actor.x)
@@ -176,6 +179,7 @@ class Game:
     def FireLeft(self, Actor):
         if not self.CanFireLeft(Actor):
             return
+        self.Sound.PlayBrokeGrass()
         Actor.status = yeti.statusFireLeft
         Actor.frames = 0
         mapX = round(Actor.x)
@@ -226,6 +230,7 @@ class Game:
     def TeaCheck(self):
         for (i, j) in self.teapot:
             if self.Yeti.x == j and self.Yeti.y == i:
+                self.Sound.PlayTeapot()
                 self.teapot.remove((i, j))
             if len(self.teapot) == 0:
                 if self.levelNum == 10:
@@ -293,7 +298,7 @@ class Game:
             return
     def RestartGame(self):
         self.RestartLevel(0)
-        self.lives = 20
+        self.lives = 25
         self.Lose = False
         self.Win = False
         self.levelNum = 0
