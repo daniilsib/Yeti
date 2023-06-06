@@ -11,7 +11,6 @@ class Level:
 
     self.LoadString()
     self.LoadMap(0)
-    self.levelMap[2][2] = 'D'
     self.LoadBlocks()
     self.DisplayText()
   def Display(self):

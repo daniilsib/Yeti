@@ -1,8 +1,11 @@
 import pygame
+import level
 
 class FinishScreen:
-    def __init__(self, screen):
+    def __init__(self, screen, curLevel: level.Level):
         self.screen = screen
+        self.framesPause = 0
+        self.Level = curLevel
         self.LoadWin()
     def LoadWin(self):
         self.win_pic = pygame.image.load('pics/Win.png')
@@ -13,6 +16,10 @@ class FinishScreen:
         self.mainMenu_rect = self.mainMenu.get_rect()
         self.autors = pygame.image.load('pics/Autors.png')
         self.autors_rect = self.autors.get_rect()
+        self.pause = pygame.image.load('pics/pause.png')
+        self.pause_rect = self.pause.get_rect()
+        self.pause2 = pygame.image.load('pics/pause2.png')
+        self.pause2_rect = self.pause2.get_rect()
     def DisplayWin(self):
         self.screen.blit(self.win_pic, self.win_pic_rect)
     def DisplayLose(self):
@@ -21,3 +28,13 @@ class FinishScreen:
         self.screen.blit(self.mainMenu, self.mainMenu_rect)
     def DisplayShowAutors(self):
         self.screen.blit(self.autors, self.autors_rect)
+    def DisplayPause(self):
+        self.framesPause += 1
+        if self.framesPause < 60:
+            self.screen.blit(self.pause, self.pause_rect)
+        else:
+            self.screen.fill((0, 0, 0))
+            self.Level.Display()
+        if self.framesPause >= 120:
+            self.framesPause = 0
+        

@@ -1,8 +1,6 @@
 import level
 import yeti
 import pygame
-import math
-import random
 import sounds
 import game
 import finish_screen
@@ -15,6 +13,7 @@ modeGame = 2
 modeShowAutors = 3
 modeWin = 4
 modeLost = 5
+modePause = 6
 myFont = pygame.font.SysFont("impact", 21)
 curMode = modeMainMenu
 
@@ -28,7 +27,7 @@ curSounds = sounds.GameSound()
 curEnemy = enemy.Enemy(screen)
 curEnemy2 = enemy.Enemy(screen)
 curGame = game.Game(curYeti, curLevel, curEnemy, curEnemy2, curSounds)
-curFinish = finish_screen.FinishScreen(screen)
+curFinish = finish_screen.FinishScreen(screen, curLevel)
 circle = pygame.image.load('pics/circle.png')
 circle = pygame.transform.scale(circle, (32, 32))
 circle_rect = circle.get_rect()
@@ -51,6 +50,10 @@ while running:
       curMode = modeMainMenu
       curGame.RestartGame()
     curFinish.DisplayWin()
+  if curMode == modePause:
+    curFinish.DisplayPause()
+    if keys[pygame.K_SPACE]:
+      curMode = modeGame
   if curMode == modeLost:
     if keys[pygame.K_SPACE]:
       curMode = modeMainMenu
@@ -90,7 +93,8 @@ while running:
       curGame.GoDown(curYeti)
     if keys[pygame.K_UP]:
       curGame.GoUp(curYeti)
-
+    if keys[pygame.K_p]:
+      curMode = modePause
     screen.fill(black)
     curLevel.Display()
     curGame.DisplayLevelDetails()
