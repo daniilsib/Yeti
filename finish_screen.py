@@ -18,8 +18,9 @@ class FinishScreen:
         self.autors_rect = self.autors.get_rect()
         self.pause = pygame.image.load('pics/pause.png')
         self.pause_rect = self.pause.get_rect()
-        self.pause2 = pygame.image.load('pics/pause2.png')
-        self.pause2_rect = self.pause2.get_rect()
+        self.start = pygame.image.load('pics/start.png')
+        self.start_rect = self.start.get_rect()
+
     def DisplayWin(self):
         self.screen.blit(self.win_pic, self.win_pic_rect)
     def DisplayLose(self):
@@ -37,4 +38,5 @@ class FinishScreen:
             self.Level.Display()
         if self.framesPause >= 120:
             self.framesPause = 0
-        
+    def DisplayStart(self):
+        self.screen.blit(self.start, self.start_rect)

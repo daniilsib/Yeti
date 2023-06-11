@@ -5,6 +5,9 @@ import sounds
 import game
 import finish_screen
 import enemy
+import time
+
+levelStarting = 0
 
 pygame.init()
 
@@ -14,6 +17,8 @@ modeShowAutors = 3
 modeWin = 4
 modeLost = 5
 modePause = 6
+modeLevelStart = 7
+modeLifeLost = 8
 myFont = pygame.font.SysFont("impact", 21)
 curMode = modeMainMenu
 
@@ -45,6 +50,16 @@ while running:
       running = False
   keys = pygame.key.get_pressed()
   text = myFont.render(str(curGame.lives), True, (255, 255, 255))
+  if curMode == modeLevelStart:
+    curLevel.Display()
+    curFinish.DisplayStart()
+    pygame.display.flip()
+    time.sleep(2)
+    curMode = modeGame
+  if curMode == modeLifeLost:
+    curGame.lives -= 1
+    time.sleep(1)
+    curMode = modeGame
   if curMode == modeWin:
     if keys[pygame.K_SPACE]:
       curMode = modeMainMenu
@@ -74,13 +89,28 @@ while running:
       exit(1)
   if curMode == modeGame:
     curSounds.StopMenu()
-    curGame.TeaCheck()
+    if levelStarting == 0:
+       curMode = modeLevelStart
+       levelStarting = 1
+    if curGame.allTeapotsColl():
+      levelStarting = 0
+      if curGame.levelNum == 10:
+        curGame.Win = True
+      curGame.lives += 5
+      curGame.levelNum += 1
+      curGame.RestartForLevelTwo(curGame.levelNum)
     curGame.Check(curYeti)
     curGame.CheckEnemy(curEnemy)
     curGame.Check(curEnemy)
     curGame.CheckEnemy2(curEnemy2)
     curGame.Check(curEnemy2)
-    curGame.CatchCheck()
+    if curGame.IsCaught():
+      if curYeti.x == curEnemy.x and curYeti.y == curEnemy.y or curYeti.x == curEnemy2.x and curYeti.y == curEnemy2.y:
+        curMode = modeLifeLost
+        curGame.RestartLevel(levelNum=curGame.levelNum)
+        if curGame.lives <= 0:
+          time.sleep(1)
+          curGame.Lose = True
     if keys[pygame.K_w]:
       curGame.FireRight(curYeti)
     if keys[pygame.K_q]:

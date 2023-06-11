@@ -4,6 +4,7 @@ import level
 import enemy
 import sounds
 import math
+import time
 
 class Game:
     def __init__(self, curYeti: yeti.Yeti, curLevel: level.Level, curEnemy: enemy.Enemy, curEnemy2: enemy.Enemy, curSounds: sounds.GameSound):
@@ -227,35 +228,25 @@ class Game:
             return
         Actor.status = yeti.statusFall
         Actor.frames = 0
-    def TeaCheck(self):
+    def allTeapotsColl(self) -> bool:
         for (i, j) in self.teapot:
             if self.Yeti.x == j and self.Yeti.y == i:
-                self.Sound.PlayTeapot()
                 self.teapot.remove((i, j))
+                self.Sound.PlayTeapot()
             if len(self.teapot) == 0:
-                if self.levelNum == 10:
-                    self.Win = True
-                    print('you won')
-                    return
-                self.lives += 5
-                self.levelNum += 1
-                self.RestartForLevelTwo(self.levelNum)
+                return True
+                
 
-    def CatchCheck(self):
+    def IsCaught(self) -> bool:
         mapX = round(self.Yeti.x)
         mapY = round(self.Yeti.y)
-        if self.Yeti.x == self.Enemy.x and self.Yeti.y == self.Enemy.y or self.Level.levelMap[mapY][mapX] == 'g':
-            if self.lives <= 0:
-                self.Lose = True
-            else:
-                self.lives -= 1
-                self.RestartLevel(self.levelNum)
+        if self.Yeti.x == self.Enemy.x and self.Yeti.y == self.Enemy.y:
+            return True
         if self.Yeti.x == self.Enemy2.x and self.Yeti.y == self.Enemy2.y:
-            if self.lives <= 0:
-                self.Lose = True
-            else:
-                self.lives -= 1
-                self.RestartLevel(self.levelNum)
+            return True
+        if self.Level.levelMap[mapY][mapX] == 'g':
+            return True
+        return False
     def CheckEnemy(self, Actor):
         if Actor.status != yeti.statusStop:
             return
