@@ -108,9 +108,10 @@ while running:
       levelStarting = 0
       if curGame.levelNum == 10:
         curGame.Win = True
-      curGame.lives += 1
-      curGame.levelNum += 1
-      curGame.RestartForLevelTwo(curGame.levelNum)
+      else:
+        curGame.lives += 1
+        curGame.levelNum += 1
+        curGame.RestartForLevelTwo(curGame.levelNum)
     curGame.Check(curYeti)
     curGame.CheckEnemy(curEnemy)
     curGame.Check(curEnemy)
