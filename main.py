@@ -93,9 +93,6 @@ while running:
        for frame in range (0, 120):
         screen.fill(black)
         curLevel.DisplayStart(frame, curYeti)
-        curYeti.Display()
-        curEnemy.Display()
-        curEnemy2.Display()
         pygame.display.flip()
         clock.tick(60)
        levelStarting = 1
@@ -111,7 +108,7 @@ while running:
       levelStarting = 0
       if curGame.levelNum == 10:
         curGame.Win = True
-      curGame.lives += 5
+      curGame.lives += 1
       curGame.levelNum += 1
       curGame.RestartForLevelTwo(curGame.levelNum)
     curGame.Check(curYeti)

@@ -16,7 +16,7 @@ class Game:
         self.Win = False
         self.Lose = False
         self.levelNum = 0
-        self.lives = 25
+        self.lives = 15
         self.teapot = []
         for i in range (15):
             for j in range (16):
@@ -289,7 +289,7 @@ class Game:
             return
     def RestartGame(self):
         self.RestartLevel(0)
-        self.lives = 25
+        self.lives = 10
         self.Lose = False
         self.Win = False
         self.levelNum = 0
