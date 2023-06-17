@@ -32,7 +32,7 @@ curSounds = sounds.GameSound()
 curEnemy = enemy.Enemy(screen)
 curEnemy2 = enemy.Enemy(screen)
 curGame = game.Game(curYeti, curLevel, curEnemy, curEnemy2, curSounds)
-curFinish = finish_screen.FinishScreen(screen, curLevel)
+curFinish = finish_screen.FinishScreen(screen, curLevel, curYeti)
 circle = pygame.image.load('pics/circle.png')
 circle = pygame.transform.scale(circle, (32, 32))
 circle_rect = circle.get_rect()
@@ -58,7 +58,6 @@ while running:
     curMode = modeGame
   if curMode == modeLifeLost:
     curGame.lives -= 1
-    time.sleep(1)
     curMode = modeGame
   if curMode == modeWin:
     if keys[pygame.K_SPACE]:
@@ -91,8 +90,24 @@ while running:
     curSounds.StopMenu()
     if levelStarting == 0:
        curMode = modeLevelStart
+       for frame in range (0, 120):
+        screen.fill(black)
+        curLevel.DisplayStart(frame, curYeti)
+        curYeti.Display()
+        curEnemy.Display()
+        curEnemy2.Display()
+        pygame.display.flip()
+        clock.tick(60)
        levelStarting = 1
     if curGame.allTeapotsColl():
+      for frame in range (0, 120):
+        screen.fill(black)
+        curLevel.DisplayLost(frame, curYeti)
+        curYeti.Display()
+        curEnemy.Display()
+        curEnemy2.Display()
+        pygame.display.flip()
+        clock.tick(60)
       levelStarting = 0
       if curGame.levelNum == 10:
         curGame.Win = True
@@ -105,12 +120,19 @@ while running:
     curGame.CheckEnemy2(curEnemy2)
     curGame.Check(curEnemy2)
     if curGame.IsCaught():
-      if curYeti.x == curEnemy.x and curYeti.y == curEnemy.y or curYeti.x == curEnemy2.x and curYeti.y == curEnemy2.y:
-        curMode = modeLifeLost
-        curGame.RestartLevel(levelNum=curGame.levelNum)
-        if curGame.lives <= 0:
-          time.sleep(1)
-          curGame.Lose = True
+      for frame in range (0, 120):
+        screen.fill(black)
+        curLevel.DisplayLost(frame, curYeti)
+        curYeti.Display()
+        curEnemy.Display()
+        curEnemy2.Display()
+        pygame.display.flip()
+        clock.tick(60)
+      curMode = modeLifeLost
+      curGame.RestartLevel(levelNum=curGame.levelNum)
+      if curGame.lives <= 0:
+        time.sleep(1)
+        curGame.Lose = True
     if keys[pygame.K_w]:
       curGame.FireRight(curYeti)
     if keys[pygame.K_q]:

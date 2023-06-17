@@ -1,4 +1,5 @@
 import pygame
+import math
 
 class Level:
   def __init__(self, screen):
@@ -36,6 +37,89 @@ class Level:
           self.stairs_rect.x = x
           self.stairs_rect.y = y
           self.screen.blit(self.stairs, self.stairs_rect)
+  def DisplayLost(self, frames, Actor):
+    blocksToDisplay = 20-frames*1/6
+    for i in range (15):
+      #print(" ")
+      for j in range (16):
+        x = j * 32
+        y = i * 32
+        distanceX = j - Actor.x
+        distanceY = i - Actor.y
+        distance = math.sqrt(distanceX*distanceX + distanceY*distanceY)
+        #print(self.levelMap[i][j], end="")
+        if distance < blocksToDisplay:
+          if self.levelMap[i][j] == "g":
+            self.grass_rect.x = x
+            self.grass_rect.y = y
+            self.screen.blit(self.grass, self.grass_rect)
+          if self.levelMap[i][j] == "b":
+            self.brick_rect.x = x
+            self.brick_rect.y = y
+            self.screen.blit(self.brick, self.brick_rect)
+          if self.levelMap[i][j] == "h":
+            self.hbar_rect.x = x
+            self.hbar_rect.y = y
+            self.screen.blit(self.hbar, self.hbar_rect)
+          if self.levelMap[i][j] == "s":
+            self.stairs_rect.x = x
+            self.stairs_rect.y = y
+            self.screen.blit(self.stairs, self.stairs_rect)
+  def DisplayStart(self, frames, Actor):
+    blocksToDisplay = 0+frames*1/6
+    for i in range (15):
+      #print(" ")
+      for j in range (16):
+        x = j * 32
+        y = i * 32
+        distanceX = j - Actor.x
+        distanceY = i - Actor.y
+        distance = math.sqrt(distanceX*distanceX + distanceY*distanceY)
+        #print(self.levelMap[i][j], end="")
+        if distance < blocksToDisplay:
+          if self.levelMap[i][j] == "g":
+            self.grass_rect.x = x
+            self.grass_rect.y = y
+            self.screen.blit(self.grass, self.grass_rect)
+          if self.levelMap[i][j] == "b":
+            self.brick_rect.x = x
+            self.brick_rect.y = y
+            self.screen.blit(self.brick, self.brick_rect)
+          if self.levelMap[i][j] == "h":
+            self.hbar_rect.x = x
+            self.hbar_rect.y = y
+            self.screen.blit(self.hbar, self.hbar_rect)
+          if self.levelMap[i][j] == "s":
+            self.stairs_rect.x = x
+            self.stairs_rect.y = y
+            self.screen.blit(self.stairs, self.stairs_rect)
+  def DisplayLight(self, i2, j2, radius):
+    for i in range (15):
+      #print(" ")
+      for j in range (16):
+        x = j * 32
+        y = i * 32
+        distanceX = j - j2
+        distanceY = i - i2
+        distance = math.sqrt(distanceX*distanceX + distanceY*distanceY)
+        #print(self.levelMap[i][j], end="")
+        if distance < radius:
+          if self.levelMap[i][j] == "g":
+            self.grass_rect.x = x
+            self.grass_rect.y = y
+            self.screen.blit(self.grass, self.grass_rect)
+          if self.levelMap[i][j] == "b":
+            self.brick_rect.x = x
+            self.brick_rect.y = y
+            self.screen.blit(self.brick, self.brick_rect)
+          if self.levelMap[i][j] == "h":
+            self.hbar_rect.x = x
+            self.hbar_rect.y = y
+            self.screen.blit(self.hbar, self.hbar_rect)
+          if self.levelMap[i][j] == "s":
+            self.stairs_rect.x = x
+            self.stairs_rect.y = y
+            self.screen.blit(self.stairs, self.stairs_rect)
   def DisplayText(self):
     for i in range (15):
       print(" ")
