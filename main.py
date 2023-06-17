@@ -95,7 +95,7 @@ while running:
         curLevel.DisplayStart(frame, curYeti)
         pygame.display.flip()
         clock.tick(60)
-       levelStarting = 1
+        levelStarting = 1
     if curGame.allTeapotsColl():
       for frame in range (0, 120):
         screen.fill(black)
@@ -125,6 +125,12 @@ while running:
         curEnemy2.Display()
         pygame.display.flip()
         clock.tick(60)
+      for frame in range (0, 120):
+        screen.fill(black)
+        curLevel.DisplayStart(frame, curYeti)
+        pygame.display.flip()
+        clock.tick(60)
+        levelStarting = 1
       curMode = modeLifeLost
       curGame.RestartLevel(levelNum=curGame.levelNum)
       if curGame.lives <= 0:
